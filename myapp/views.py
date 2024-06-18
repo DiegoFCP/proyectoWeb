@@ -6,3 +6,5 @@ def index (request):
     context={}
     return render(request, 'myapp/index.html',context)
     
+def about (request):
+    return render(request, 'myapp/about.html')
