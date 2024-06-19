@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FORM</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="{% static 'jq/jquery-3.7.1.min.js' %}"></script>
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <a class="navbar-brand" href="{% url 'index' %}">
+        <img src="{% static 'img/gato1.png' %}" alt="Inicio" width="20%">
+    </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+            
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'about' %}">Nosotros</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'galeria' %}">Imagenes</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'noticias' %}">Noticias</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'api' %}">Aleatorio!</a>
+            </li>
+        
+        </ul>
+    </div>
+</nav>
+
+
+<div class="container text-center">
+    <h1>Suscríbete!</h1>
+    <br>
+    <form id="myForm" action="Demo_Web.html" method="post">
+        <div class="row">
+            <div class="col-md-2"></div> 
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="nombreInput">Nombre *</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Sebastian *" required>
+                    <div class="invalid-feedback">Por favor, ingrese su nombre.</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="rutInput">Rut</label>
+                    <input type="text" class="form-control" id="rut" name="rut" placeholder="XXXXXXXX-X">
+                </div>
+                
+                <div class="form-group">
+                    <label for="direccionInput">Direccion</label>
+                    <input type="text" class="form-control"  id="direccion" name="direccion" placeholder="Antonio Varas 666">
+                </div>
+            
+            </div>
+            <div class="col-md-4"> 
+                <div class="form-group">
+                    <label for="apellidoInput">Apellido *</label>
+                    <input type="text" class="form-control" id="apellido" name="apellido" placeholder="Guzman *" required>
+                    <div class="invalid-feedback">Por favor, ingrese su apellido.</div>
+                </div>
+                
+                
+                <div class="form-group">
+                    <label for="correoInput">Correo *</label>
+                    <input type="email" class="form-control" id="correo" name="correo" placeholder="Correo@demo.com *" required>
+                    <div class="invalid-feedback">Por favor, ingrese un correo electrónico válido.</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="colorInput">Color Favorito</label>
+                    <input type="text" class="form-control" id="color" name="color" placeholder="Rosa">
+                </div>
+            </div>
+            <div class="col-md-2"></div> 
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div> 
+            <div class="col-md-8"> 
+                <button type="submit" class="btn btn-primary" formaction="{% url 'formulario' %}">Enviar</button>
+                <button type="reset" class="btn btn-secondary">Limpiar</button>
+            </div>
+            <div class="col-md-2"></div> 
+        </div>
+    </form>
+</div>
+
+<footer class="footer mt-5">
+    <div class="container text-center">
+        <p>@derechos reservados</p>
+    </div>
+</footer>
+
+<script>
+    $(document).ready(function(){
+        $("#myForm").submit(function(event){
+            var errorMessage = ""; 
+            
+            // Validación del campo Nombre
+            if($("#nombre").val().trim() == ""){
+                errorMessage += "Por favor, ingrese su nombre.\n";
+            }
+
+            // Validación del campo Apellido
+            if($("#apellido").val().trim() == ""){
+                errorMessage += "Por favor, ingrese su apellido.\n";
+            }
+
+           // Validación del campo Correo
+            var correo = $("#correo").val().trim();
+            if (correo == "" || !/\S+@\S+\.\S+/.test(correo)) {
+                errorMessage += "Por favor, ingrese un correo electrónico válido.\n";
+            }
+
+
+            // Validación del campo Dirección 
+            // if($("#direccion").val() == ""){
+            //     errorMessage += "Por favor, ingrese su dirección.\n";
+            // }
+
+            // Validación del campo Rut 
+            // if($("#rut").val() == ""){
+            //     errorMessage += "Por favor, ingrese su RUT.\n";
+            // }
+
+            // Validación del campo Color 
+            // if($("#color").val() == ""){
+            //     errorMessage += "Por favor, ingrese su color favorito.\n";
+            // }
+            // Mostrar alerta si hay algún error
+            if(errorMessage != ""){
+                alert(errorMessage);
+                event.preventDefault(); 
+            }
+        });
+    });
+</script>
+
+<script src="{% static 'jq/jquery-3.7.1.min.js' %}"></script>
+<script src="{% static 'js/popper.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+</body>
+</html>
