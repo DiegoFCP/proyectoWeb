@@ -20,3 +20,6 @@ def noticias (request):
 
 def api (request):
     return render(request, 'myapp/api.html')
+
+def login (request):
+    return render(request, 'myapp/login.html')

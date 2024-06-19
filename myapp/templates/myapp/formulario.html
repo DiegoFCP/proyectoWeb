@@ -47,6 +47,7 @@
     <h1>Suscríbete!</h1>
     <br>
     <form id="myForm" action="Demo_Web.html" method="post">
+        {% csrf_token %}
         <div class="row">
             <div class="col-md-2"></div> 
             <div class="col-md-4">
@@ -57,9 +58,11 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="rutInput">Rut</label>
-                    <input type="text" class="form-control" id="rut" name="rut" placeholder="XXXXXXXX-X">
+                    <label for="contrasenaInput">Contraseña *</label>
+                    <input type="password" class="form-control" id="contrasena" name="contrasena" placeholder="********" required>
+                    <div class="invalid-feedback">Por favor, ingrese una contraseña válida.</div>
                 </div>
+
                 
                 <div class="form-group">
                     <label for="direccionInput">Direccion</label>
@@ -74,16 +77,16 @@
                     <div class="invalid-feedback">Por favor, ingrese su apellido.</div>
                 </div>
                 
+                <div class="form-group">
+                    <label for="2contrasenaInput">Confirme Contraseña *</label>
+                    <input type="password" class="form-control" id="2contrasena" name="2contrasena" placeholder="********" required>
+                    <div class="invalid-feedback">Las contraseñas no coinciden.</div>
+                </div>
                 
                 <div class="form-group">
                     <label for="correoInput">Correo *</label>
                     <input type="email" class="form-control" id="correo" name="correo" placeholder="Correo@demo.com *" required>
                     <div class="invalid-feedback">Por favor, ingrese un correo electrónico válido.</div>
-                </div>
-
-                <div class="form-group">
-                    <label for="colorInput">Color Favorito</label>
-                    <input type="text" class="form-control" id="color" name="color" placeholder="Rosa">
                 </div>
             </div>
             <div class="col-md-2"></div> 
@@ -91,7 +94,7 @@
         <div class="row">
             <div class="col-md-2"></div> 
             <div class="col-md-8"> 
-                <button type="submit" class="btn btn-primary" formaction="{% url 'formulario' %}">Enviar</button>
+                <button type="submit" class="btn btn-primary" formaction="{% url 'login' %}">Registrarse</button>
                 <button type="reset" class="btn btn-secondary">Limpiar</button>
             </div>
             <div class="col-md-2"></div> 
@@ -120,27 +123,40 @@
                 errorMessage += "Por favor, ingrese su apellido.\n";
             }
 
-           // Validación del campo Correo
+            // Validación del campo Correo
             var correo = $("#correo").val().trim();
             if (correo == "" || !/\S+@\S+\.\S+/.test(correo)) {
                 errorMessage += "Por favor, ingrese un correo electrónico válido.\n";
             }
 
+            // Validación del campo Contraseña
+            var contrasena = $("#contrasena").val().trim();
+            var contrasena2 = $("#2contrasena").val().trim();
 
-            // Validación del campo Dirección 
-            // if($("#direccion").val() == ""){
-            //     errorMessage += "Por favor, ingrese su dirección.\n";
-            // }
+            if (contrasena.length < 8) {
+                errorMessage += "La contraseña debe tener al menos 8 caracteres.\n";
+            }
 
-            // Validación del campo Rut 
-            // if($("#rut").val() == ""){
-            //     errorMessage += "Por favor, ingrese su RUT.\n";
-            // }
+            if (!/[A-Z]/.test(contrasena)) {
+                errorMessage += "La contraseña debe contener al menos una letra mayúscula.\n";
+            }
 
-            // Validación del campo Color 
-            // if($("#color").val() == ""){
-            //     errorMessage += "Por favor, ingrese su color favorito.\n";
-            // }
+            if (!/[a-z]/.test(contrasena)) {
+                errorMessage += "La contraseña debe contener al menos una letra minúscula.\n";
+            }
+
+            if (!/[0-9]/.test(contrasena)) {
+                errorMessage += "La contraseña debe contener al menos un número.\n";
+            }
+
+            if (!/[!@#$%^&*]/.test(contrasena)) {
+                errorMessage += "La contraseña debe contener al menos un carácter especial (!@#$%^&*).\n";
+            }
+
+            if (contrasena !== contrasena2) {
+                errorMessage += "Las contraseñas no coinciden.\n";
+            }
+
             // Mostrar alerta si hay algún error
             if(errorMessage != ""){
                 alert(errorMessage);
@@ -149,6 +165,7 @@
         });
     });
 </script>
+
 
 <script src="{% static 'jq/jquery-3.7.1.min.js' %}"></script>
 <script src="{% static 'js/popper.min.js' %}"></script>
