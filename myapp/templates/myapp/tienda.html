@@ -16,6 +16,22 @@
         .product-img:hover {
             transform: scale(1.1);
         }
+        .card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+        .card-body {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex-grow: 1;
+        }
+        .card-img-top {
+            max-height: 200px;
+            object-fit: cover;
+        }
     </style>
 </head>
 <body>
@@ -53,27 +69,36 @@
         <div class="col-md-8">
             <div class="row">
                 <!-- Productos -->
-                <div class="col-md-4">
-                    <div class="card mb-4">
+                <div class="col-md-4 mb-4">
+                    <div class="card">
                         <img class="card-img-top product-img" src="{% static 'img/fotos/peluche_aurelio.jpg' %}" alt="Producto 1">
                         <div class="card-body">
                             <h5 class="card-title">Peluche Aurelio</h5>
                             <p class="card-text">$15000.00</p>
-                            <button class="btn btn-primary add-to-cart" data-name="Peluche Aurelio" data-price="15000">Añadir al carrito</button>
+                            <div class="input-group mb-3">
+                                <input type="number" class="form-control quantity" value="1" min="1">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary add-to-cart" data-name="Peluche Aurelio" data-price="15000">Añadir al carrito</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="card mb-4">
+                <div class="col-md-4 mb-4">
+                    <div class="card">
                         <img class="card-img-top product-img" src="{% static 'img/fotos/peluche_tako.jpg' %}" alt="Producto 2">
                         <div class="card-body">
                             <h5 class="card-title">Peluche Tako</h5>
                             <p class="card-text">$15000.00</p>
-                            <button class="btn btn-primary add-to-cart" data-name="Peluche Tako" data-price="15000.00">Añadir al carrito</button>
+                            <div class="input-group mb-3">
+                                <input type="number" class="form-control quantity" value="1" min="1">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary add-to-cart" data-name="Peluche Tako" data-price="15000">Añadir al carrito</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                
                 <!-- Añadir más productos aquí -->
             </div>
         </div>
@@ -105,8 +130,8 @@
 
             cart.forEach(function(item, index){
                 var cartItem = $('<li class="list-group-item d-flex justify-content-between align-items-center"></li>');
-                cartItem.text(item.name + " - $" + item.price.toFixed(2));
-                total += item.price;
+                cartItem.text(item.name + " x" + item.quantity + " - $" + (item.price * item.quantity).toFixed(2));
+                total += item.price * item.quantity;
 
                 var removeButton = $('<button class="btn btn-danger btn-sm">Eliminar</button>');
                 removeButton.click(function() {
@@ -124,7 +149,15 @@
         $(".add-to-cart").click(function(){
             var name = $(this).data("name");
             var price = parseFloat($(this).data("price"));
-            cart.push({name: name, price: price});
+            var quantity = parseInt($(this).closest('.input-group').find('.quantity').val());
+            var existingItemIndex = cart.findIndex(item => item.name === name);
+
+            if (existingItemIndex > -1) {
+                cart[existingItemIndex].quantity += quantity;
+            } else {
+                cart.push({name: name, price: price, quantity: quantity});
+            }
+
             updateCart();
         });
 
