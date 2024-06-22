@@ -12,7 +12,7 @@ class Usuario (models.Model):
 
 class Imagenes (models.Model):
     id_imagen = models.AutoField(primary_key=True)
-    Imagenes = models.ImageField(upload_to='imagenes/')
+    Imagenes = models.ImageField(upload_to='img/')
 
 class Producto (models.Model):
     id_usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
@@ -22,3 +22,11 @@ class Producto (models.Model):
     precio = models.FloatField()
     stock = models.IntegerField()
     imagen = models.ForeignKey(Imagenes, on_delete=models.CASCADE)
+    
+class Venta (models.Model):
+    id_venta = models.AutoField(primary_key=True)
+    id_producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    id_usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    cantidad = models.IntegerField()
+    total_cost = models.IntegerField()
+    
