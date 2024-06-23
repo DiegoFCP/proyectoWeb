@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from .models import Usuario, Producto, Venta
+from .forms import UsuarioForm
 
 # Create your views here.
 
@@ -13,7 +15,33 @@ def galeria (request):
     return render(request, 'myapp/galeria.html')
 
 def formulario (request):
-    return render(request, 'myapp/formulario.html')
+    if request.method != 'POST':
+        usuario = Usuario.objects.all()
+        context = {
+            "usuario": Usuario,
+        }
+        return render(request, "myapp/formulario.html", context)
+    else:
+        nombre = request.POST["nombre"]
+        apellido = request.POST["apellido"]
+        correo = request.POST["correo"]
+        contraseña = request.POST["contraseña"]
+        direccion = request.POST["direccion"]
+        activo = True
+
+        obj = Usuario.objects.create(
+            nombre = nombre,
+            apellido = apellido,
+            correo = correo,
+            contraseña = contraseña,
+            direccion = direccion,
+            activo = activo
+           )
+        obj.save()
+        context = {
+            "mensaje": "Registro Exitoso",
+        }
+        return render(request, "myapp/formulario.html", context)
 
 def noticias (request):
     return render(request, 'myapp/noticias.html')

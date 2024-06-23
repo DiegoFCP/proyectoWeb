@@ -46,7 +46,7 @@
 <div class="container text-center">
     <h1>Suscríbete!</h1>
     <br>
-    <form id="myForm" action="Demo_Web.html" method="post">
+    <form id="myForm" action="{% url 'formulario'%}" method="POST">
         {% csrf_token %}
         <div class="row">
             <div class="col-md-2"></div> 
@@ -59,7 +59,7 @@
 
                 <div class="form-group">
                     <label for="contrasenaInput">Contraseña *</label>
-                    <input type="password" class="form-control" id="contrasena" name="contrasena" placeholder="********" required>
+                    <input type="password" class="form-control" id="contraseña" name="contraseña" placeholder="********" required>
                     <div class="invalid-feedback">Por favor, ingrese una contraseña válida.</div>
                 </div>
 
@@ -77,11 +77,6 @@
                     <div class="invalid-feedback">Por favor, ingrese su apellido.</div>
                 </div>
                 
-                <div class="form-group">
-                    <label for="2contrasenaInput">Confirme Contraseña *</label>
-                    <input type="password" class="form-control" id="2contrasena" name="2contrasena" placeholder="********" required>
-                    <div class="invalid-feedback">Las contraseñas no coinciden.</div>
-                </div>
                 
                 <div class="form-group">
                     <label for="correoInput">Correo *</label>
@@ -94,8 +89,9 @@
         <div class="row">
             <div class="col-md-2"></div> 
             <div class="col-md-8"> 
-                <button type="submit" class="btn btn-primary" formaction="{% url 'login' %}">Registrarse</button>
+                <button type="submit" class="btn btn-primary">Registrarse</button>
                 <button type="reset" class="btn btn-secondary">Limpiar</button>
+                <a href="{% url 'login' %}"><button type="button" class="btn btn-primary mt-3">Volver</button></a>
             </div>
             <div class="col-md-2"></div> 
         </div>
