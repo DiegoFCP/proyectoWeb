@@ -2,31 +2,34 @@ from django.db import models
 
 # Create your models here.
 
-class Usuario (models.Model):
-    id_usuario = models.AutoField(primary_key=True)
+
+class Usuario(models.Model):
     nombre = models.CharField(max_length=50)
     apellido = models.CharField(max_length=50)
-    email = models.EmailField()
-    password = models.CharField(max_length=50)
-    direccion = models.CharField(max_length=50, null=True, blank=True)
+    correo = models.EmailField(unique=True)
+    contraseña = models.CharField(max_length=50)
+    direccion = models.TextField()
 
-class Imagenes (models.Model):
-    id_imagen = models.AutoField(primary_key=True)
-    Imagenes = models.ImageField(upload_to='img/')
+    def __str__(self):
+        return f'{self.nombre} {self.apellido}'
 
-class Producto (models.Model):
-    id_usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    id_producto = models.AutoField(primary_key=True)
-    nombre = models.CharField(max_length=50)
-    descripcion = models.CharField(max_length=50)
-    precio = models.FloatField()
-    stock = models.IntegerField()
-    imagen = models.ForeignKey(Imagenes, on_delete=models.CASCADE)
-    
-class Venta (models.Model):
-    id_venta = models.AutoField(primary_key=True)
-    id_producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
-    id_usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+
+class Producto(models.Model):
+    nombreProducto = models.CharField(max_length=50)
+    descripcion = models.TextField()
+    precio = models.IntegerField()
+    imagen = models.ImageField(upload_to='img/')
+
+    def __str__(self):
+        return self.nombreProducto    
+
+
+class Venta(models.Model):
+    cliente = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    fecha = models.DateTimeField(auto_now_add=True)
     cantidad = models.IntegerField()
-    total_cost = models.IntegerField()
-    
+    total = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return f'Venta #{self.id} - {self.cliente} - {self.producto}'
