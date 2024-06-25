@@ -93,7 +93,11 @@
                 <button type="reset" class="btn btn-secondary">Limpiar</button>
                 <a href="{% url 'login' %}"><button type="button" class="btn btn-primary mt-3">Volver</button></a>
             </div>
-            <div class="col-md-2"></div> 
+            {% if mensaje %}
+                        <div class="alert alert-success w-50 mx-auto">
+                            {{mensaje}}
+                        </div>
+            {% endif %}
         </div>
     </form>
 </div>

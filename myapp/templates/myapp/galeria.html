@@ -62,6 +62,12 @@
 <h1 class="text-center">Galería de Imágenes</h1>
 
 <div class="galeria">
+    {% if user.is_authenticated %}
+    <h1>CONECTADO</h1>
+    {% else %}
+    <H1>DESCONECTADO</H1>
+    {% endif %}
+    <br>
     <div class="imagen">
         <img src="{% static 'img/fotos/Auron3.jpeg' %}" alt="Imagen 1">
     </div>
